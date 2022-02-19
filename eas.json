@@ -1,0 +1,19 @@
+{
+  "build": {
+    "production": {
+      "releaseChannel": "production",
+      "env": {
+        "APP_ENV": "production"
+      }
+    },
+    "staging": {
+      "releaseChannel": "staging",
+      "env": {
+        "APP_ENV": "staging"
+      }
+    }
+  },
+  "cli": {
+    "version": ">= 0.47.0"
+  }
+}

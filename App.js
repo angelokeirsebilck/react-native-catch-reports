@@ -1,10 +1,15 @@
 import React from 'react';
-import { NativeBaseProvider, Box } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './hooks/useAuth';
+
+import NativeBaseParent from './components/native-base/NativeBaseParent';
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Box>Hello world</Box>
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <AuthProvider>
+        <NativeBaseParent />
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
