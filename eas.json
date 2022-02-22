@@ -6,6 +6,15 @@
         "APP_ENV": "production"
       }
     },
+    "preview": {
+      "releaseChannel": "production",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "APP_ENV": "production"
+      }
+    },
     "staging": {
       "releaseChannel": "staging",
       "env": {

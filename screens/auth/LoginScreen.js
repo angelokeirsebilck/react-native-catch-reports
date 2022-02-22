@@ -1,15 +1,18 @@
 import { Box, Text, Input, Center, Stack, Button } from 'native-base';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Test from '../../components/Test';
 import ColorModeChanger from '../../components/ColorModeChanger';
+import GoogleLogin from '../../components/GoogleLogin';
+import GoogleLogin2 from '../../components/GoogleLogin2';
+import FacebookLogin from '../../components/FacebookLogin';
 
 import useAuth from '../../hooks/useAuth';
 
 import Constants from 'expo-constants';
 
 const LoginScreen = () => {
-  const { login } = useAuth();
+  const { login, request, response, promptAsync } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,6 +30,10 @@ const LoginScreen = () => {
           placeholder='Password'
         />
         <Button onPress={() => login(email, password)}>Login</Button>
+
+        {/* <GoogleLogin /> */}
+        <GoogleLogin2 />
+        <FacebookLogin />
         <Test />
         <ColorModeChanger />
         <Text>{Constants.manifest.extra.apiUrl}</Text>

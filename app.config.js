@@ -8,9 +8,11 @@ if (process.env.APP_ENV === 'production') {
   Config.apiUrl = 'https://express-catch-reports-staging.herokuapp.com/api/v1';
 }
 
-export default {
-  // ...
-  extra: {
-    ...Config,
-  },
+export default ({ config }) => {
+  return {
+    ...config,
+    extra: {
+      ...Config,
+    },
+  };
 };
