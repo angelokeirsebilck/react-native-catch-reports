@@ -7,18 +7,19 @@
       }
     },
     "preview": {
-      "releaseChannel": "production",
+      "releaseChannel": "preview",
       "android": {
         "buildType": "apk"
       },
       "env": {
-        "APP_ENV": "production"
+        "APP_ENV": "preview"
       }
     },
-    "staging": {
-      "releaseChannel": "staging",
-      "env": {
-        "APP_ENV": "staging"
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
       }
     }
   },

@@ -15,7 +15,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
   const [colorMode, setColorMode] = useState('light');
@@ -25,9 +25,11 @@ export const AuthProvider = ({ children }) => {
       try {
         const colorMode = await SecureStore.getItemAsync('colorMode');
         setColorMode(colorMode);
+        const token = await SecureStore.getItemAsync('token');
 
-        const user = await SecureStore.getItemAsync('user');
-        setUser(JSON.parse(user));
+        if (token) {
+          getCurrentProfile();
+        }
 
         setLoadingInitial(false);
       } catch (e) {
@@ -41,16 +43,14 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await SecureStore.deleteItemAsync('token');
-      await SecureStore.deleteItemAsync('user');
-      setUser(null);
+      await SecureStore.deleteItemAsync('profile');
+      setProfile(null);
     } catch (error) {
       console.log(error);
     }
   };
 
   const login = async (email, password) => {
-    console.log(process.env.API_URL);
-
     const body = {
       email,
       password,
@@ -60,8 +60,65 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post(`/auth/login`, body);
 
       await SecureStore.setItemAsync('token', res.data.token);
-      await SecureStore.setItemAsync('user', JSON.stringify(res.data.user));
-      setUser(res.data.user);
+      await SecureStore.setItemAsync(
+        'profile',
+        JSON.stringify(res.data.profile)
+      );
+      setProfile(res.data.profile);
+    } catch (error) {
+      const { msg } = error.response.data;
+      setError(msg);
+      console.log(error);
+    }
+  };
+
+  const fbLogin = async (token) => {
+    const body = {
+      accessToken: token,
+    };
+
+    try {
+      const res = await axios.post(`/auth/login/facebook`, body);
+
+      await SecureStore.setItemAsync('token', res.data.token);
+      await SecureStore.setItemAsync(
+        'profile',
+        JSON.stringify(res.data.profile)
+      );
+      setProfile(res.data.profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const googleLogin = async (token) => {
+    const body = {
+      accessToken: token,
+    };
+
+    try {
+      const res = await axios.post(`/auth/login/google`, body);
+
+      await SecureStore.setItemAsync('token', res.data.token);
+      await SecureStore.setItemAsync(
+        'profile',
+        JSON.stringify(res.data.profile)
+      );
+      setProfile(res.data.profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCurrentProfile = async () => {
+    try {
+      const res = await axios.get(`/users/showMe`);
+
+      await SecureStore.setItemAsync(
+        'profile',
+        JSON.stringify(res.data.profile)
+      );
+      setProfile(res.data.profile);
     } catch (error) {
       console.log(error);
     }
@@ -69,14 +126,16 @@ export const AuthProvider = ({ children }) => {
 
   const memoedValue = useMemo(
     () => ({
-      user,
+      profile,
       loading,
       error,
       logout,
       login,
+      fbLogin,
+      googleLogin,
       colorMode,
     }),
-    [user, loading, error, colorMode]
+    [profile, loading, error, colorMode]
   );
 
   return (

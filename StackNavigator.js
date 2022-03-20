@@ -7,19 +7,26 @@ const Stack = createNativeStackNavigator();
 
 import HomeScreen from './screens/main/HomeScreen';
 import LoginScreen from './screens/auth/LoginScreen';
+import RegisterScreen from './screens/auth/RegisterScreen';
+import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen';
 
 const StackNavigator = () => {
-  const { user } = useAuth();
+  const { profile } = useAuth();
 
   return (
     <Stack.Navigator>
-      {user ? (
+      {profile ? (
         <Stack.Group>
           <Stack.Screen name='Home' component={HomeScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name='Login' component={LoginScreen} />
+          <Stack.Screen name='Register' component={RegisterScreen} />
+          <Stack.Screen
+            name='ForgotPassword'
+            component={ForgotPasswordScreen}
+          />
         </Stack.Group>
       )}
     </Stack.Navigator>

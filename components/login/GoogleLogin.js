@@ -11,7 +11,7 @@ export default function App() {
       '367906980347-a7693kpgee7h5a19g0tabpjhs46fiece.apps.googleusercontent.com',
     iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
     androidClientId:
-      '367906980347-ab30d82jprsrq4jcitdgnnojaprfa0qb.apps.googleusercontent.com',
+      '367906980347-ia22vh64604o2et7brmj7tf8bgbphg16.apps.googleusercontent.com',
     webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
   });
 
@@ -33,6 +33,7 @@ export default function App() {
 
   React.useEffect(() => {
     if (response?.type === 'success') {
+      console.log('success');
       getUserData(response.authentication.accessToken);
     }
   }, [response]);
@@ -40,7 +41,7 @@ export default function App() {
   return (
     <Button
       disabled={!request}
-      title='Login'
+      title='Login Google'
       onPress={() => {
         promptAsync();
       }}

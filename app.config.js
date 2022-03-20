@@ -4,7 +4,7 @@ let Config = {
 
 if (process.env.APP_ENV === 'production') {
   Config.apiUrl = 'https://express-catch-reports.herokuapp.com/api/v1';
-} else if (process.env.APP_ENV === 'staging') {
+} else if (process.env.APP_ENV === 'preview') {
   Config.apiUrl = 'https://express-catch-reports-staging.herokuapp.com/api/v1';
 }
 

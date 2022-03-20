@@ -1,20 +1,28 @@
-import { Box, Text, Input, Center, Stack, Button } from 'native-base';
+import {
+  Box,
+  Text,
+  Input,
+  Center,
+  Stack,
+  Button,
+  Pressable,
+} from 'native-base';
 import React, { useState, useEffect } from 'react';
+
+import { useNavigation } from '@react-navigation/native';
 
 import Test from '../../components/Test';
 import ColorModeChanger from '../../components/ColorModeChanger';
-import GoogleLogin from '../../components/GoogleLogin';
-import GoogleLogin2 from '../../components/GoogleLogin2';
-import FacebookLogin from '../../components/FacebookLogin';
-
 import useAuth from '../../hooks/useAuth';
 
 import Constants from 'expo-constants';
 
 const LoginScreen = () => {
-  const { login, request, response, promptAsync } = useAuth();
+  const { login, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
 
   return (
     <Center safeArea>
@@ -30,13 +38,18 @@ const LoginScreen = () => {
           placeholder='Password'
         />
         <Button onPress={() => login(email, password)}>Login</Button>
-
-        {/* <GoogleLogin /> */}
-        <GoogleLogin2 />
-        <FacebookLogin />
+        <Text color='red.400'>{error}</Text>
         <Test />
         <ColorModeChanger />
         <Text>{Constants.manifest.extra.apiUrl}</Text>
+        <Text>{Constants.appOwnership}</Text>
+
+        <Pressable onPress={() => navigation.navigate('Register')}>
+          <Text mt={3}>Did not register yet? Register!</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text mt={3}>Forgot password?</Text>
+        </Pressable>
       </Stack>
     </Center>
   );
